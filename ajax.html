@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form">
+         <input type="file" name="files" multiple>
+        <label for="username">用户名：</label>
+        <input type="text" name="username" id="username">
+        <label for="password">密码：</label>
+        <input type="password" name="password" id="password">
+        <input type="checkbox" name="book" value="book1">book1
+        <input type="checkbox" name="book" value="book2">book2
+        <input type="button" value="提交" id="btn">
+    </form>
+
+    <script>
+        var form = document.getElementById('form');
+        var btn = document.getElementById('btn');
+        btn.onclick = function () {
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            
+            xhr.open('post', 'http://localhost:8080/Ajax');
+            //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
