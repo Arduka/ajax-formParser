@@ -10,7 +10,7 @@ const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
 server.on('request', async (req, res) => {
-    if (req.url == '/Ajax') {
+    if (req.url == '/ajax') {
 
         if (req.method == 'GET') {
             let pathName = path.join(__dirname, 'ajax.html');
@@ -28,11 +28,14 @@ server.on('request', async (req, res) => {
             }).on('end', async () => {
                 let { filed, file } = formParse(body, boundary);
                 console.log(filed);
-                //console.log(file);
+                console.log(file);
                 try {
-                    let files = file.files;
-                    await writeFile(files[1].filename, files[1].binaryStream, 'binary');
-                    console.log('文件写入成功');
+                    //文件输入框的name="files"
+                    let fileArr = file.files;
+                    for(let f of fileArr){
+                        await writeFile(f.filename, f.binaryStream, 'binary');
+                        console.log(`文件\"${f.filename}\"写入成功`);
+                    }
                 } catch (error) {
                     console.log(error);
                     res.statusCode = 500;

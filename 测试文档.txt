@@ -1,0 +1,2 @@
+test text --En
+中文字符串 --zh-cn

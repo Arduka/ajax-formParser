@@ -14,7 +14,7 @@ module.exports = function formParse(body, boundary) {
         item = item.slice(0, -2).trim();
         //value存储input输入的值
         let value = '';
-        //不同操作系统换行符不同
+        //不同操作系统换行符不同,用变量a声明特殊分割点位的下标
         let a;
         if ((a = item.indexOf('\r\n\r\n')) != -1) {
             value = item.slice(a + 4);
@@ -43,11 +43,12 @@ module.exports = function formParse(body, boundary) {
             obj.filename = filename;
             obj.contentType = contentType;
             obj.binaryStream = value;//文件的二进制数据
+            let arr = [];
             if (!(key in file)) {
-                file[key] = obj;
+                arr.push(obj);
+                file[key] = arr;
             } else {
                 //用于多文件上传
-                let arr = [];
                 file[key] = arr.concat(file[key], obj);
             }
         }
